@@ -1,6 +1,6 @@
 import re
 
-# activity group filter keywords
+# broad activity group filter keywords
 activity_groups = {
     "Food & Drink": [
         "restaurant",
@@ -71,25 +71,19 @@ activity_groups = {
     ]
 }
 
+# exclusion rules to disqualify places 
 exclusions = [
-    # for fitness (remove just gyms)
     "gym",
     "fitness center",
     "boxing gym",
     "gymnastics center",
-
-    # RV camping (false pos)
     "rv park",
     "recreational vehicle park",
-
-    # shopping
     "store",
     "shop",
     "shopping mall",
     "supermarket",
     "grocery store",
-
-    # services
     "repair",
     "contractor",
     "supplier",
@@ -102,14 +96,11 @@ exclusions = [
     "conference center",
     "warehouse",
     "storage",
-
-    # "venues and weddings (false pos)"
     "wedding venue",
     "banquet hall"
 ]
 
-# checks for a matching keyword between local label and our keywords
-
+# return true if a keyword appears 
 def matches_keyword(text, keyword):
     text = text.lower()
     keyword = keyword.lower()
@@ -118,7 +109,7 @@ def matches_keyword(text, keyword):
 
     return re.search(pattern, text) is not None
 
-# checks for excluded words
+# return true if an exclusion term is found
 def has_exclusion(categories):
 
     if not isinstance(categories, list):
@@ -131,7 +122,7 @@ def has_exclusion(categories):
 
     return False
 
-
+# returns all broad groups that matched keywords
 def get_activity_groups(categories):
 
     if not isinstance(categories, list):
@@ -152,7 +143,7 @@ def get_activity_groups(categories):
 
     return matched_groups
 
-# confidence level is determined by how many of the place's keywords match with our list 
+# counts the number of categories of a place that matched a keyword 
 def get_confidence(categories):
 
     if not is_activity(categories):
@@ -173,16 +164,17 @@ def get_confidence(categories):
 
         if matched:
             match_count += 1
-    # high confidence if 2 or more keywords matches
+
     if match_count >= 2:
         return "High"
-    # medium confidence if at least 1 keyword matches 
+
     elif match_count == 1:
         return "Medium"
-    # low confidence if no matches, but passed filter
+ 
     else:
         return "Low"
 
+# checks if a place is an activity, returns True/False 
 def is_activity(categories):
 
     if not isinstance(categories, list):
@@ -193,18 +185,3 @@ def is_activity(categories):
 
 
     return len(get_activity_groups(categories)) > 0
-
-
-
-activity_metadata_v3 = metadata[
-    metadata["is_activity_v3"]
-].copy()
-
-activity_metadata_v3[
-    [
-        "name",
-        "category",
-        "activity_groups_v3",
-        "confidence_v3"
-    ]
-].head(30)
