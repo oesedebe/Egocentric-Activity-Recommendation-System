@@ -1,11 +1,4 @@
 import re
-import pandas as pd
-
-metadata = pd.read_json(
-    "../data/raw/meta-New_York.json.gz", 
-    lines=True, 
-    compression="gzip"
-)
 
 # activity group filter keywords
 activity_groups = {
