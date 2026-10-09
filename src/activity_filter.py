@@ -1,11 +1,4 @@
 import re
-import pandas as pd
-
-metadata = pd.read_json(
-    "../data/raw/meta-New_York.json.gz", 
-    lines=True, 
-    compression="gzip"
-)
 
 # activity group filter keywords
 activity_groups = {
@@ -78,25 +71,19 @@ activity_groups = {
     ]
 }
 
+# exclusion terms creating false positives 
 exclusions = [
-    # for fitness (remove just gyms)
     "gym",
     "fitness center",
     "boxing gym",
     "gymnastics center",
-
-    # RV camping (false pos)
     "rv park",
     "recreational vehicle park",
-
-    # shopping
     "store",
     "shop",
     "shopping mall",
     "supermarket",
     "grocery store",
-
-    # services
     "repair",
     "contractor",
     "supplier",
@@ -109,8 +96,6 @@ exclusions = [
     "conference center",
     "warehouse",
     "storage",
-
-    # "venues and weddings (false pos)"
     "wedding venue",
     "banquet hall"
 ]
@@ -200,18 +185,3 @@ def is_activity(categories):
 
 
     return len(get_activity_groups(categories)) > 0
-
-
-
-activity_metadata_v3 = metadata[
-    metadata["is_activity_v3"]
-].copy()
-
-activity_metadata_v3[
-    [
-        "name",
-        "category",
-        "activity_groups_v3",
-        "confidence_v3"
-    ]
-].head(30)
