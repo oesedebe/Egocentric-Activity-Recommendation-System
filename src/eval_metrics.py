@@ -63,6 +63,7 @@ def calculate_metrics(recommended, relevant, k=10):
 
 """"
 * to calculate avg recall hit rate and ndcg, replace MODEL_NAME with model
+* and k with correct k value
 * eligible users are users that are present in both test and train set 
 
 import random
@@ -88,7 +89,7 @@ hit_scores, recall_scores, ndcg_scores = [], [], []
 
 for user_id in evaluation_users:
 
-    recs = MODEL_NAME(user_id, k=10)
+    recs = MODEL_NAME(user_id, k=)
     recommended = recs["gmap_id"].tolist()
 
     relevant = set(
@@ -98,23 +99,23 @@ for user_id in evaluation_users:
     )
 
     recall_scores.append(
-        recall_at_k(recommended, relevant, 10)
+        recall_at_k(recommended, relevant, k)
     )
 
     hit_scores.append(
-        hit_rate_at_k(recommended, relevant, 10)
+        hit_rate_at_k(recommended, relevant, k)
     )
 
     ndcg_scores.append(
-        ndcg_at_k(recommended, relevant, 10)
+        ndcg_at_k(recommended, relevant, k)
     )
 
 avg_recall = sum(recall_scores) / len(recall_scores)
 avg_hit = sum(hit_scores) / len(hit_scores)
 avg_ndcg = sum(ndcg_scores) / len(ndcg_scores)
 
-print("Recall@10:", avg_recall)
-print("Hit Rate@10:", avg_hit)
-print("NDCG@10:", avg_ndcg)
+print("Recall:", avg_recall)
+print("Hit Rate:", avg_hit)
+print("NDCG:", avg_ndcg)
 
 """
