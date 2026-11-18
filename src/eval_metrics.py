@@ -60,6 +60,7 @@ def calculate_metrics(recommended, relevant, k=10):
         f"HitRate@{k}": hit_rate,
         f"NDCG@{k}": ndcg
     }
+<<<<<<< HEAD
 
 """"
 * to calculate avg recall hit rate and ndcg, replace MODEL_NAME with model
@@ -119,3 +120,5 @@ print("Hit Rate:", avg_hit)
 print("NDCG:", avg_ndcg)
 
 """
+=======
+>>>>>>> b8e5b80 (add distance and budget score functions and experiments)
