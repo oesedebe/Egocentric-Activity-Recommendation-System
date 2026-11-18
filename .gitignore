@@ -17,3 +17,6 @@ __pycache__/
 # Windows
 Thumbs.db
 Desktop.ini
+
+# Local VS Code editor settings
+.vscode/
